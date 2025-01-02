@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعات میزها</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        #map-image {
+            width: 8027px;
+            max-width: 100%;
+            height: auto;
+            position: relative;}
+
+        body {
+            font-family: 'IRANSans', Arial, sans-serif;
+            direction: rtl;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        .tooltip {
+            position: absolute;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+            max-width: 300px;
+            font-size: 14px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .tooltip h3 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .tooltip .month-section {
+            margin-top: 15px;
+        }
+        .tooltip .month-section h4 {
+            font-size: 16px;
+            margin: 10px 0 5px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .tooltip ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .tooltip ul li {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+        }
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .highlight {
+            stroke: #3498db;
+            stroke-width: 2;
+            fill: none;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div style="position: relative;">
+        <img src="آفیس سپرده‌گذاری.jpg" id="map-image" alt="Office Layout" usemap="#map" />
+        <svg id="svg-overlay"></svg>
+    </div>
+    <map name="map">
+        <map name="map">
+            <area shape="poly" coords="386,607,438,638,391,688,340,651" data-info="محمد بهاری|مهر توقیف: 534|مهر رفع: 189|مجموع فروش مهر: 104|نسبت توقیف به کل مهر: 65%|نسبت رفع به کل مهر: 23%|نسبت فروش به کل مهر: 13%|آبان توقیف: 363|آبان رفع: 130|مجموع فروش آبان: 141|نسبت توقیف به کل آبان: 57%|نسبت رفع به کل آبان: 21%|نسبت فروش به کل آبان: 22%|آذر توقیف: 130|آذر رفع: 34|مجموع فروش آذر: 77|نسبت توقیف به کل آذر: 54%|نسبت رفع به کل آذر: 14%|نسبت فروش به کل آذر: 32%" />
+            <area shape="poly" coords="883, 741, 855, 681, 918, 654, 948, 716" data-info="عیوض بدری|مهر توقیف: 465|مهر رفع: 161|مجموع فروش مهر: 228|نسبت توقیف به کل مهر: 54%|نسبت رفع به کل مهر: 19%|نسبت فروش به کل مهر: 27%|آبان توقیف: 428|آبان رفع: 184|مجموع فروش آبان: 246|نسبت توقیف به کل آبان: 50%|نسبت رفع به کل آبان: 21%|نسبت فروش به کل آبان: 29%|آذر توقیف: 239|آذر رفع: 144|مجموع فروش آذر: 211|نسبت توقیف به کل آذر: 40%|نسبت رفع به کل آذر: 24%|نسبت فروش به کل آذر: 36%" />
+            <area shape="poly" coords="770,711,818,781,762,814,711,748" data-info="میثم محمدی|مهر توقیف: 588|مهر رفع: 259|مجموع فروش مهر: 271|نسبت توقیف به کل مهر: 53%|نسبت رفع به کل مهر: 23%|نسبت فروش به کل مهر: 24%|آبان توقیف: 577|آبان رفع: 162|مجموع فروش آبان: 252|نسبت توقیف به کل آبان: 58%|نسبت رفع به کل آبان: 16%|نسبت فروش به کل آبان: 25%|آذر توقیف: 319|آذر رفع: 145|مجموع فروش آذر: 209|نسبت توقیف به کل آذر: 47%|نسبت رفع به کل آذر: 22%|نسبت فروش به کل آذر: 31%" />
+            <area shape="poly" coords="822, 771, 786, 715, 848, 687, 877, 746" data-info="سید علی اکبر نصرتی پور|مهر توقیف: 0|مهر رفع: 0|مجموع فروش مهر: 0|نسبت توقیف به کل مهر: 0%|نسبت رفع به کل مهر: 0%|نسبت فروش به کل مهر: 0%|آبان توقیف: 0|آبان رفع: 0|مجموع فروش آبان: 0|نسبت توقیف به کل آبان: 0%|نسبت رفع به کل آبان: 0%|نسبت فروش به کل آبان: 0%|آذر توقیف: 110|آذر رفع: 10|مجموع فروش آذر: 2|نسبت توقیف به کل آذر: 90%|نسبت رفع به کل آذر: 8%|نسبت فروش به کل آذر: 2%" />
+            <area shape="poly" coords="403,694,451,644,498,679,460,727" data-info="سعید زاهدی|مهر توقیف: 1037|مهر رفع: 653|مجموع فروش مهر: 234|نسبت توقیف به کل مهر: 54%|نسبت رفع به کل مهر: 34%|نسبت فروش به کل مهر: 12%|آبان توقیف: 781|آبان رفع: 562|مجموع فروش آبان: 205|نسبت توقیف به کل آبان: 50%|نسبت رفع به کل آبان: 36%|نسبت فروش به کل آبان: 13%|آذر توقیف: 981|آذر رفع: 521|مجموع فروش آذر: 194|نسبت توقیف به کل آذر: 58%|نسبت رفع به کل آذر: 31%|نسبت فروش به کل آذر: 11%" />
+        </map>
+    </map>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const svg = document.getElementById('svg-overlay');
+        const tooltip = document.getElementById('tooltip');
+        const areas = document.querySelectorAll('area');
+    
+        areas.forEach(area => {
+            const coords = area.getAttribute('coords').split(',').map(Number);
+            const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    
+            let points = '';
+            for (let i = 0; i < coords.length; i += 2) {
+                points += `${coords[i]},${coords[i + 1]} `;
+            }
+    
+            polyline.setAttribute('points', points.trim());
+            polyline.classList.add('highlight');
+            svg.appendChild(polyline);
+    
+            const info = area.getAttribute('data-info').split('|');
+            const name = info[0];
+            const monthsData = info.slice(1).reduce((acc, item) => {
+                const [key, value] = item.split(': ');
+                const [month, detail] = key.split(' ');
+                if (['مهر', 'آبان', 'آذر'].includes(month)) { // فقط این ماه‌ها انتخاب شوند
+                    acc[month] = acc[month] || {};
+                    acc[month][detail] = value;
+                }
+                return acc;
+            }, {});
+    
+            area.addEventListener('mouseenter', (e) => {
+                polyline.style.visibility = 'visible';
+    
+                let htmlContent = `<h3>${name}</h3>`;
+                for (const month in monthsData) {
+                    htmlContent += `<div class="month-section"><h4>${month}</h4><ul>`;
+                    const data = monthsData[month];
+                    htmlContent += `<li>توقیف: ${data['توقیف'] || '0'}</li>`;
+                    htmlContent += `<li>رفع: ${data['رفع'] || '0'}</li>`;
+                    htmlContent += `<li>فروش: ${data['فروش'] || '0'}</li>`;
+                    htmlContent += `<li>نسبت توقیف: ${data['نسبت توقیف'] || '0%'} </li>`;
+                    htmlContent += `<li>نسبت رفع: ${data['نسبت رفع'] || '0%'} </li>`;
+                    htmlContent += `<li>نسبت فروش: ${data['نسبت فروش'] || '0%'} </li>`;
+                    htmlContent += '</ul></div>';
+                }
+    
+                tooltip.innerHTML = htmlContent;
+                tooltip.style.display = 'block';
+                tooltip.style.top = `${e.clientY + 10}px`;
+                tooltip.style.left = `${e.clientX + 10}px`;
+            });
+    
+            area.addEventListener('mousemove', (e) => {
+                tooltip.style.top = `${e.clientY + 10}px`;
+                tooltip.style.left = `${e.clientX + 10}px`;
+            });
+    
+            area.addEventListener('mouseleave', () => {
+                polyline.style.visibility = 'hidden';
+                tooltip.style.display = 'none';
+            });
+        });
+    </script>
+    
+
+</body>
+</html>
