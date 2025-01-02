@@ -4,89 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اطلاعات میزها با خطوط</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            margin: 0;
-            padding: 0;
-            position: relative;
-        }
-        #map-image {
-            width: 8027px;
-            max-width: 100%;
-            height: auto;
-            position: relative;
-        }
-        .tooltip {
-            position: absolute;
-            background: linear-gradient(135deg, #fff, #f0f0f0);
-            border: 1px solid #ddd;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            z-index: 1000;
-            max-width: 300px;
-            font-family: "IRANSans", Arial, sans-serif;
-            animation: fadeIn 0.3s ease-in-out;
-            transition: transform 0.3s ease;
-            transform: scale(0.95);
-        }
-        
-        .tooltip h3 {
-            font-size: 18px;
-            margin: 0 0 10px;
-            color: #444;
-            font-weight: bold;
-        }
-        
-        .tooltip ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .tooltip ul li {
-            font-size: 14px;
-            margin: 5px 0;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        .tooltip.show {
-            display: block;
-            transform: scale(1);
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        .highlight {
-            stroke: red;
-            stroke-width: 2;
-            fill: none;
-            visibility: hidden;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
     <div style="position: relative;">
         <img src="آفیس سپرده‌گذاری.jpg" id="map-image" alt="Office Layout" usemap="#map" />
         <svg id="svg-overlay"></svg>
@@ -124,62 +45,9 @@
         </ul>
     </div>
 
-    <script>
-        const svg = document.getElementById('svg-overlay');
-        const tooltip = document.getElementById('tooltip');
-        const areas = document.querySelectorAll('area');
+  
     
-        areas.forEach(area => {
-            const coords = area.getAttribute('coords').split(',').map(Number);
-            const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    
-            let points = '';
-            for (let i = 0; i < coords.length; i += 2) {
-                points += `${coords[i]},${coords[i + 1]} `;
-            }
-    
-            polyline.setAttribute('points', points.trim());
-            polyline.classList.add('highlight');
-            svg.appendChild(polyline);
-    
-            // استخراج اطلاعات
-            const info = area.getAttribute('data-info').split('|');
-            const name = info[0]; // اولین مقدار به عنوان نام فرد
-            const infoHtml = info
-                .slice(1) // حذف نام فرد از لیست اطلاعات
-                .map((item, index) => {
-                    // افزودن خط جداکننده بعد از هر 6 آیتم
-                    let content = `<li>${item}</li>`;
-                    if ((index + 1) % 6 === 0 && index + 1 !== info.length) {
-                        content += '<hr style="margin: 10px 0; border: 0; border-top: 1px solid gold;">';
-                    }
-                    return content;
-                })
-                .join('');
-    
-            area.addEventListener('mouseenter', (e) => {
-                polyline.style.visibility = 'visible';
-    
-                // تنظیم محتوای tooltip
-                tooltip.innerHTML = `<h3>${name}</h3><ul>${infoHtml}</ul>`;
-                tooltip.style.display = 'block';
-                tooltip.style.top = `${e.clientY + 10}px`;
-                tooltip.style.left = `${e.clientX + 10}px`;
-            });
-    
-            area.addEventListener('mousemove', (e) => {
-                tooltip.style.top = `${e.clientY + 10}px`;
-                tooltip.style.left = `${e.clientX + 10}px`;
-            });
-    
-            area.addEventListener('mouseleave', () => {
-                polyline.style.visibility = 'hidden';
-                tooltip.style.display = 'none';
-            });
-        });
-    </script>
-    
-    
+    <script src="script.js"></script>
 </body>
 </html>
 
