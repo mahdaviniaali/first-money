@@ -79,3 +79,10 @@
             visibility: hidden;
         }
     
+        .separator {
+            border: 0;
+            border-top: 2px solid gold;
+            margin: 10px 0;
+        }
+        
+        

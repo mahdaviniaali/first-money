@@ -2,6 +2,45 @@ const svg = document.getElementById('svg-overlay');
 const tooltip = document.getElementById('tooltip');
 const areas = document.querySelectorAll('area');
 
+// داده‌های جدید
+const data = {
+    "محمد بهاری": {
+        "توقیف پاییز": "1027 (16%)",
+        "رفع پاییز": "189 (15%)",
+        "فروش پاییز": "322 (14%)",
+        "مجموع": "1538",
+        "مشارکت هر فرد": "15%"
+    },
+    "عیوض بدر": {
+        "توقیف پاییز": "1132 (17%)",
+        "رفع پاییز": "161 (13%)",
+        "فروش پاییز": "685 (29%)",
+        "مجموع": "1978",
+        "مشارکت هر فرد": "19%"
+    },
+    "میثم محمدی": {
+        "توقیف پاییز": "1484 (23%)",
+        "رفع پاییز": "259 (21%)",
+        "فروش پاییز": "732 (31%)",
+        "مجموع": "2475",
+        "مشارکت هر فرد": "24%"
+    },
+    "سید علی اکبر نصرتی پور": {
+        "توقیف پاییز": "110 (2%)",
+        "رفع پاییز": "0 (0%)",
+        "فروش پاییز": "2 (0%)",
+        "مجموع": "112",
+        "مشارکت هر فرد": "1%"
+    },
+    "سعید زاهدی": {
+        "توقیف پاییز": "2799 (43%)",
+        "رفع پاییز": "653 (52%)",
+        "فروش پاییز": "633 (27%)",
+        "مجموع": "4085",
+        "مشارکت هر فرد": "40%"
+    }
+};
+
 areas.forEach(area => {
     const coords = area.getAttribute('coords').split(',').map(Number);
     const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -15,18 +54,17 @@ areas.forEach(area => {
     polyline.classList.add('highlight');
     svg.appendChild(polyline);
 
-    // استخراج اطلاعات
-    const info = area.getAttribute('data-info').split('|');
-    const name = info[0]; // اولین مقدار به عنوان نام فرد
-    const infoHtml = info
-        .slice(1) // حذف نام فرد از لیست اطلاعات
-        .map((item, index) => {
-            // افزودن خط جداکننده بعد از هر 6 آیتم
-            let content = `<li>${item}</li>`;
-            if ((index + 1) % 6 === 0 && index + 1 !== info.length) {
-                content += '<hr style="margin: 10px 0; border: 0; border-top: 1px solid gold;">';
+    const name = area.getAttribute('data-name'); // نام فرد از attribute
+    const personData = data[name]; // دریافت داده‌های فرد
+
+    // تولید HTML برای tooltip
+    const infoHtml = Object.keys(personData)
+        .map(key => {
+            if (key === "فروش پاییز") {
+                // اضافه کردن خط جداکننده بعد از فروش پاییز
+                return `<li>${key}: <strong>${personData[key]}</strong></li><hr class="separator">`;
             }
-            return content;
+            return `<li>${key}: <strong>${personData[key]}</strong></li>`;
         })
         .join('');
 
