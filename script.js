@@ -2,7 +2,7 @@ const svg = document.getElementById('svg-overlay');
 const tooltip = document.getElementById('tooltip');
 const areas = document.querySelectorAll('area');
 
-// داده‌های جدید
+// داده‌های قدیمی
 const data = {
     "محمد بهاری": {
         "توقیف پاییز": "1027 (16%)",
@@ -28,7 +28,7 @@ const data = {
     "سید علی اکبر نصرتی پور": {
         "توقیف پاییز": "110 (2%)",
         "رفع پاییز": "0 (0%)",
-        "فروش پاییز": "2 (0.1%)",
+        "فروش پاییز": "2 (0%)",
         "مجموع": "112",
         "مشارکت فرد": "1%"
     },
@@ -39,6 +39,32 @@ const data = {
         "مجموع": "4085",
         "مشارکت فرد": "40%"
     }
+};
+
+// داده‌های جدید تحت "بیزاجی"
+const bizagiData = {
+    "سعید زاهدی": {
+        "توقیف": "2390 (70%)",
+        "فروش": "104 (72%)",
+        "مجموع": { "تعداد": "2494", "مشارکت فرد": "70%" }
+    },
+    "سید علی اکبر نصرتی پور": {
+        "توقیف": "1009 (30%)",
+        "فروش": "4 (3%)",
+        "مجموع": { "تعداد": "1013", "مشارکت فرد": "28%" }
+    },
+    "عیوض بدر": {
+        "توقیف": "12 (0%)",
+        "فروش": "36 (25%)",
+        "مجموع": { "تعداد": "48", "مشارکت فرد": "1%" }
+    }
+};
+
+// مقدار پیش‌فرض برای "بیزاجی"
+const defaultBizagiData = {
+    "توقیف": "0 (0%)",
+    "فروش": "0 (0%)",
+    "مجموع": { "تعداد": "0", "مشارکت فرد": "0%" }
 };
 
 areas.forEach(area => {
@@ -55,24 +81,38 @@ areas.forEach(area => {
     svg.appendChild(polyline);
 
     const name = area.getAttribute('data-name'); // نام فرد از attribute
-    const personData = data[name]; // دریافت داده‌های فرد
+    const personData = data[name] || {}; // دریافت داده‌های فرد از داده‌های قدیمی
+    const bizagiPersonData = { ...defaultBizagiData, ...bizagiData[name] }; // تکمیل داده‌های "بیزاجی" با مقدار پیش‌فرض
 
-    // تولید HTML برای tooltip
-    const infoHtml = Object.keys(personData)
-        .map(key => {
+    // تولید HTML برای داده‌های قدیمی
+    const oldDataHtml = Object.keys(personData)
+        .map((key, index) => {
+            // اضافه کردن خط نازک خاکستری بعد از "فروش پاییز"
             if (key === "فروش پاییز") {
-                // اضافه کردن خط جداکننده بعد از فروش پاییز
-                return `<li>${key}: <strong>${personData[key]}</strong></li><hr class="separator">`;
+                return `<li>${key}: <strong>${personData[key]}</strong></li><hr style="border: 0.5px solid #ccc; margin: 5px 0;">`;
             }
             return `<li>${key}: <strong>${personData[key]}</strong></li>`;
         })
         .join('');
 
+    // تولید HTML برای داده‌های بیزاجی
+    const bizagiDataHtml = `
+        <hr style="border: 1px solid gold; margin: 10px 0;">
+        <h4 style="color: #ff9900; font-weight: bold; margin-bottom: 5px;">بیزاجی</h4>
+        <ul style="color: #666; font-style: italic;">
+            <li>توقیف: <strong>${bizagiPersonData["توقیف"]}</strong></li>
+            <li>فروش: <strong>${bizagiPersonData["فروش"]}</strong></li>
+            <hr style="border: 0.5px solid #ccc; margin: 5px 0;">
+            <li>مجموع: <strong>${bizagiPersonData["مجموع"]["تعداد"]}</strong></li>
+            <li>مشارکت فرد: <strong>${bizagiPersonData["مجموع"]["مشارکت فرد"]}</strong></li>
+        </ul>
+    `;
+
     area.addEventListener('mouseenter', (e) => {
         polyline.style.visibility = 'visible';
 
         // تنظیم محتوای tooltip
-        tooltip.innerHTML = `<h3>${name}</h3><ul>${infoHtml}</ul>`;
+        tooltip.innerHTML = `<h3>${name}</h3><ul>${oldDataHtml}</ul>${bizagiDataHtml}`;
         tooltip.style.display = 'block';
         tooltip.style.top = `${e.clientY + 10}px`;
         tooltip.style.left = `${e.clientX + 10}px`;
